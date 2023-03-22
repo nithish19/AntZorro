@@ -67,14 +67,14 @@
                           [disabled]="!item.isHBL"
                         >
                           Add HBL
-                      </button>
+                        </button>
                       </ng-container>
                       <ng-container *ngIf="item.hblDetail">
                         <button
                           nz-button
                           nzType="primary"
                           *nzSpaceItem
-                          (click)="editHbl(item,data,true)"
+                          (click)="editHbl(item, data, true)"
                         >
                           <span nz-icon nzType="eye"></span>
                         </button>
@@ -82,7 +82,7 @@
                           nz-button
                           nzType="primary"
                           *nzSpaceItem
-                          (click)="editHbl(item, data,false)"
+                          (click)="editHbl(item, data, false)"
                         >
                           <span nz-icon nzType="edit"></span>
                         </button>
@@ -92,84 +92,12 @@
                 </tr>
               </tbody>
             </nz-table>
-            <div *ngFor="let item of data.blItems; let blindex = index">
-               <nz-card *ngIf="item.hblView">
-                <ng-container>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">shipper Name</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.shipperName }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">consignee Name</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.consigneeName }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">notify Party Name</h6>
-                    <h5 nz-typography>
-                      {{ item.hblDetail?.notifyPartyName }}
-                    </h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">pol</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.pol }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">container No</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.containerNo }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">marks Nnumbers</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.marksNnumbers }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">description</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.description }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">shipper Address</h6>
-                    <h5 nz-typography>
-                      {{ item.hblDetail?.shipperAddress }}
-                    </h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">consignee Address</h6>
-                    <h5 nz-typography>
-                      {{ item.hblDetail?.consigneeAddress }}
-                    </h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">
-                      notify Party Address
-                    </h6>
-                    <h5 nz-typography>
-                      {{ item.hblDetail?.notifyPartyAddress }}
-                    </h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">pod</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.pod }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">seal No</h6>
-                    <h5 nz-typography>{{ item.hblDetail?.sealNo }}</h5>
-                  </div>
-                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
-                    <h6 nz-typography class="hbl-title">gross Weight</h6>
-                    <h5 nz-typography>
-                      {{ item.hblDetail?.grossWeight
-                      }}{{ item.hblDetail?.grosswtDropdowm }}
-                    </h5>
-                  </div>
-                </ng-container>
-              </nz-card>
-            </div>
           </tr>
         </ng-container>
       </tbody>
     </nz-table>
   </nz-card>
 </div>
-
 <nz-drawer
   [nzBodyStyle]="{ overflow: 'auto' }"
   [nzMaskClosable]="false"
@@ -875,7 +803,7 @@
       (click)="hblSave()"
       [disabled]="!hblForm.valid"
     >
-    {{viewmodehbl?'Close':'Save'}}  
+      {{ viewmodehbl ? "Close" : "Save" }}
     </button>
   </ng-template>
 </nz-drawer>

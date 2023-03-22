@@ -5,10 +5,10 @@
   right: 0;
   left: 0;
 }
-.import-Blcard{
- width: 100%;
+.import-Blcard {
+  width: 100%;
 }
-.footer-btn{
+.footer-btn {
   float: right;
 }
 .form-card {
@@ -17,21 +17,14 @@
 .bl-card {
   width: 100%;
 }
-.parenttable-column{
+.parenttable-column {
   width: 50px;
 }
-.hbl-list-details{
+.hbl-list-details {
   margin-bottom: 20px;
   border: none;
   text-align: center;
 }
-.grossweight-dropdown{
- width: auto;
+.grossweight-dropdown {
+  width: auto;
 }
-.hbl-title{
-  text-transform: capitalize;
-}
-
-
-
-

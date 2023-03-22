@@ -48,7 +48,7 @@ export class TestApplicationComponent implements OnInit {
   expandSet = new Set<number>();
   visibleBL = false;
   visibleHbl = false;
-  viewmodehbl?:boolean;
+  viewmodehbl?: boolean;
   readonly BLPARAMS = BLPARAMS;
 
   listOfData: BLDetail[] = [];
@@ -222,7 +222,7 @@ export class TestApplicationComponent implements OnInit {
     }
   }
 
-  editHbl(editElement: BLItem, blForm: BLDetail,isViewMode:boolean) {
+  editHbl(editElement: BLItem, blForm: BLDetail, isViewMode: boolean) {
     this.visibleHbl = true;
     this.currentBLForm = blForm;
     this.currentBLItem = editElement;
@@ -243,13 +243,12 @@ export class TestApplicationComponent implements OnInit {
       [BLPARAMS.grossWeight]: updatedata?.grossWeight,
       [BLPARAMS.grosswtDropdowm]: updatedata?.grosswtDropdowm,
     });
-    if(isViewMode===true){
-      this.viewmodehbl=true;
+    if (isViewMode === true) {
+      this.viewmodehbl = true;
       this.hblForm.disable();
-    }
-    else{
+    } else {
       this.hblForm.enable();
-      this.viewmodehbl=false;
+      this.viewmodehbl = false;
     }
   }
 
@@ -259,13 +258,7 @@ export class TestApplicationComponent implements OnInit {
     this.visibleHbl = true;
   }
 
-
   closehbl() {
     this.visibleHbl = false;
   }
-
-  gridStyle = {
-    width: '14.28%',
-    textAlign: 'center',
-  };
 }
