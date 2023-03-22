@@ -1,0 +1,173 @@
+<div class="container">
+  <div class="left">
+    <nz-card class="card-left">
+      <nz-card-tab>
+        <nz-tabset nzSize="large">
+          <nz-tab nzTitle="CONTACTS">
+            <ul nz-list [nzDataSource]="contact" nzSize="large">
+              <li nz-list-item *ngFor="let item of contact" nzNoFlex>
+                <div nz-row>
+                  <nz-col nzSpan="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4"
+                    ><nz-avatar
+                      nzIcon="user"
+                      nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    ></nz-avatar>
+                  </nz-col>
+                  <nz-col nzSpan="18" nzSm="18" nzMd="18" nzLg="18" nzXl="18"
+                    ><h5 nz-typography>{{ item.username }}</h5>
+                    <h6 nz-typography>{{ item.call }}</h6>
+                  </nz-col>
+                  <nz-col nzSpan="2" nzSm="2" nzMd="2" nzLg="2" nzXl="2"
+                    ><span nz-icon nzType="phone"></span
+                  ></nz-col>
+                </div>
+              </li>
+              <nz-list-footer></nz-list-footer>
+            </ul>
+          </nz-tab>
+          <nz-tab nzTitle="RECENT">
+            <ul nz-list [nzDataSource]="recent" nzSize="large">
+              <li nz-list-item *ngFor="let item of recent" nzNoFlex>
+                <div nz-row>
+                  <nz-col nzSpan="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4"
+                    ><nz-avatar
+                      nzIcon="user"
+                      nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                    ></nz-avatar>
+                  </nz-col>
+                  <nz-col nzSpan="16"  nzSm="16" nzMd="16" nzLg="16" nzXl="16"
+                    ><h5 nz-typography>{{ item.username }}</h5>
+                    <h6 nz-typography>{{ item.call }}</h6>
+                  </nz-col>
+                  <nz-col  nzSpan="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+                    <h6 nz-typography>{{ item.time }}</h6></nz-col
+                  >
+                </div>
+              </li>
+              <nz-list-footer></nz-list-footer>
+            </ul>
+          </nz-tab>
+        </nz-tabset>
+      </nz-card-tab>
+    </nz-card>
+  </div>
+  <div class="middle">
+    <div nz-col [nzSpan]="33.33">
+      <nz-card nzTitle="Solar Energy Consumption">
+        <div nz-row>
+          <div nz-col [nzSpan]="16"  nzSm="16" nzMd="16" nzLg="16" nzXl="16" [nzPush]="4">
+            <nz-progress [nzPercent]="42" nzType="dashboard"></nz-progress>
+          </div>
+          <div nz-col nzSpan="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" [nzPull]="4">
+            <h3 nz-typography>6.421 kWh</h3>
+            <h5 nz-typography>out of 8.421 kWh</h5>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <div>
+      <nz-card
+        class="middle-card1"
+        [nzCover]="coverTemplate"
+        [nzActions]="[actionGlobal, actionApple, actionAndroid, actionGithub]"
+      >
+        <nz-card-meta
+          nzTitle="UI Kitten"
+          nzDescription="UI Kitten is a framework that contains a set of commonly used UI components styled in a similar way. The most awesome thing: you can change themes on the fly by just passing a different set of variables. 100% native. Give our kitten a try!"
+        ></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <img src="../assets/Nebular.jpg" />
+      </ng-template>
+      <ng-template #actionGlobal>
+        <span nz-icon nzType="global"></span>
+      </ng-template>
+      <ng-template #actionApple>
+        <span nz-icon nzType="apple"></span>
+      </ng-template>
+      <ng-template #actionAndroid>
+        <span nz-icon nzType="android"></span>
+      </ng-template>
+      <ng-template #actionGithub>
+        <span nz-icon nzType="github"></span>
+      </ng-template>
+    </div>
+  </div>
+  <div class="right">
+    <div nz-col [nzSpan]="33.33">
+      <nz-card nzTitle="Traffic Consumption">
+        <p>Card content</p>
+      </nz-card>
+    </div>
+    <div nz-col class="right-card1" [nzSpan]="33.33">
+      <nz-card>
+        <div nz-row>
+          <div nz-col nzSpan="12"   nzSm="12" nzMd="12" nzLg="12" nzXl="12" [nzPush]="2">
+            <div>
+              <h4>New York</h4>
+              <h6>Mon 29 May</h6>
+            </div>
+            <h1>20°</h1>
+          </div>
+          <div nz-col  nzSpan="12"   nzSm="12" nzMd="12" nzLg="12" nzXl="12"></div>
+        </div>
+        <div nz-row class="whether">
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>MAX</span></div>
+            <div>
+              <span><b>23°</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>MIN</span></div>
+            <div>
+              <span><b>19°</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>WIND</span></div>
+            <div>
+              <span><b>4 km/h</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>HUM</span></div>
+            <div>
+              <span><b>87%</b></span>
+            </div>
+          </div>
+        </div>
+        <div nz-row class="whether-icon">
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>SUN</span></div>
+            <span nz-icon nzType="cloud"></span>
+            <div>
+              <span><b>17°</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>MON</span></div>
+            <span nz-icon nzType="global"></span>
+            <div>
+              <span><b>19°</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>TUE</span></div>
+            <span nz-icon nzType="cloud"></span>
+            <div>
+              <span><b>22°</b></span>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"  nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+            <div><span>WED</span></div>
+            <span nz-icon nzType="global"></span>
+            <div>
+              <span><b>21°</b></span>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</div>

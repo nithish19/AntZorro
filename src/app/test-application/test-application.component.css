@@ -1,0 +1,37 @@
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.import-Blcard{
+ width: 100%;
+}
+.footer-btn{
+  float: right;
+}
+.form-card {
+  width: 100%;
+}
+.bl-card {
+  width: 100%;
+}
+.parenttable-column{
+  width: 50px;
+}
+.hbl-list-details{
+  margin-bottom: 20px;
+  border: none;
+  text-align: center;
+}
+.grossweight-dropdown{
+ width: auto;
+}
+.hbl-title{
+  text-transform: capitalize;
+}
+
+
+
+

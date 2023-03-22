@@ -1,0 +1,47 @@
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 30px;
+  overflow: hidden;
+}
+.left {
+  height: 100%;
+  width: 33.33%;
+  float: left;
+  padding: 20px;
+}
+.card-left {
+  width: 100%;
+  height: 100%;
+}
+
+.middle {
+  height: 100%;
+  width: 33.33%;
+  float: left;
+  padding: 20px;
+}
+.middle-card1 {
+  width: 100%;
+  margin-top: 40px;
+}
+.right {
+  height: 100%;
+  width: 33.33%;
+  float: right;
+  padding: 20px;
+}
+.right-card1 {
+  margin-top: 40px;
+}
+.whether {
+  margin-top: 10px;
+  text-align: center;
+}
+.whether-icon {
+  margin-top: 30px;
+  text-align: center;
+}

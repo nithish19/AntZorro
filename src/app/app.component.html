@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="left-side">
+    <app-product #productRef></app-product>
+  </div>
+  <div class="right-side">
+    <nz-card [nzBordered]="false" nzTitle="PROJECT DETAILS">
+      <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+        <input type="text" nz-input  [(ngModel)]="searchvalues" name="searchvalues" (ngModelChange)="applyFilter()" placeholder="input search text" />
+      </nz-input-group>
+      <ng-template #suffixButton>
+        <button nz-button nzType="primary" *ngIf="searchvalues" (click)="onSearchClear()" nzSearch><span nz-icon nzType="clear"></span></button>
+      </ng-template>
+      <nz-table #sortTable [nzData]="displayData" nzTableLayout="fixed" (nzPageIndexChange)="pageSize($event)">
+        <thead>
+          <tr>
+            <th
+              *ngFor="let column of listOfColumn"
+              [nzSortFn]="column.compare"
+              [nzSortPriority]="column.priority"
+              [nzShowSort]="column.showsorter"
+              [nzFilters]="column.filters"
+              [nzFilterFn]="column.filterfn"
+              [nzShowFilter]="column.showFilter"
+            >
+              {{ column.title }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of sortTable.data;let i=index">
+            <td>{{data.order}}</td>
+            <td>{{ data.projectname }}</td>
+            <td>{{ data.startdate | date : "mediumDate" }}</td>
+            <td>{{ data.duedate | date : "mediumDate" }}</td>
+            <td>
+              <ng-container [ngSwitch]="data.status">
+                <ng-container *ngSwitchCase="'Released'">
+                  <button nz-button nzShape="round" class="released">
+                    Released
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Review'">
+                  <button nz-button nzShape="round" class="review">
+                    Review
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Pending'">
+                  <button nz-button nzShape="round" class="pending">
+                    Pending
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Work in Progress'">
+                  <button nz-button nzShape="round" class="work-in-progress">
+                    Work in Progress
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Coming soon'">
+                  <button nz-button nzShape="round" class="coming-soon">
+                    Coming soon
+                  </button>
+                </ng-container>
+              </ng-container>
+            </td>
+            <td>{{ data.assign }}</td>
+            <td class="delete-edit-btn">
+              <button nz-button nzType="primary">
+                <span nz-icon nzType="edit" (click)="editRow(data)"></span>
+              </button>
+              <button nz-button nzType="primary" nzDanger>
+                <span
+                  nz-icon
+                  nzType="delete"
+                  (click)="deleteRow(data.id, data.projectname)"
+                ></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+</div>

@@ -1,0 +1,881 @@
+<div class="container">
+  <nz-card class="import-Blcard">
+    <button nz-button nzType="primary" (click)="open()">Import BL</button>
+    <nz-table #nzTable [nzData]="listOfData" nzTableLayout="fixed">
+      <thead>
+        <tr>
+          <th class="parenttable-column"></th>
+          <th>Vessel Name</th>
+          <th>Voyage No</th>
+          <th>Rotation</th>
+          <th>PPL</th>
+          <th>Port</th>
+          <th>Terminal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of nzTable.data">
+          <tr>
+            <td
+              [nzExpand]="expandSet.has(data.id)"
+              (nzExpandChange)="onExpandChange(data.id, $event)"
+            ></td>
+            <td>{{ data.vesselName }}</td>
+            <td>{{ data.voyageNo }}</td>
+            <td>{{ data.rotation }}</td>
+            <td>{{ data.ppl }}</td>
+            <td>{{ data.port }}</td>
+            <td>{{ data.terminal }}</td>
+          </tr>
+          <tr [nzExpand]="expandSet.has(data.id)">
+            <nz-table
+              [nzData]="data.blItems"
+              nzTableLayout="fixed"
+              [nzFrontPagination]="false"
+              [nzShowPagination]="false"
+            >
+              <thead>
+                <tr>
+                  <th>BL No</th>
+                  <th>HBL</th>
+                  <th>HBL No</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data.blItems; let blindex = index">
+                  <td>{{ item.blNumber }}</td>
+                  <td>
+                    <ng-container [ngSwitch]="item.isHBL">
+                      <ng-container *ngSwitchCase="true">
+                        <span>Yes</span>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="false">
+                        <span>No</span>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                  <td>{{ item.hblNumber }}</td>
+                  <td>
+                    <nz-space>
+                      <ng-container *ngIf="!item.hblDetail">
+                        <button
+                          nz-button
+                          *nzSpaceItem
+                          nzType="primary"
+                          (click)="openhbl(item, data)"
+                          [disabled]="!item.isHBL"
+                        >
+                          Add HBL
+                      </button>
+                      </ng-container>
+                      <ng-container *ngIf="item.hblDetail">
+                        <button
+                          nz-button
+                          nzType="primary"
+                          *nzSpaceItem
+                          (click)="editHbl(item, data,true)"
+                        >
+                          <span nz-icon nzType="eye"></span>
+                        </button>
+                        <button
+                          nz-button
+                          nzType="primary"
+                          *nzSpaceItem
+                          (click)="editHbl(item, data)"
+                        >
+                          <span nz-icon nzType="edit"></span>
+                        </button>
+                      </ng-container>
+                    </nz-space>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <div *ngFor="let item of data.blItems; let blindex = index">
+               <nz-card *ngIf="item.hblView">
+                <ng-container>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">shipper Name</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.shipperName }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">consignee Name</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.consigneeName }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">notify Party Name</h6>
+                    <h5 nz-typography>
+                      {{ item.hblDetail?.notifyPartyName }}
+                    </h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">pol</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.pol }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">container No</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.containerNo }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">marks Nnumbers</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.marksNnumbers }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">description</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.description }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">shipper Address</h6>
+                    <h5 nz-typography>
+                      {{ item.hblDetail?.shipperAddress }}
+                    </h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">consignee Address</h6>
+                    <h5 nz-typography>
+                      {{ item.hblDetail?.consigneeAddress }}
+                    </h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">
+                      notify Party Address
+                    </h6>
+                    <h5 nz-typography>
+                      {{ item.hblDetail?.notifyPartyAddress }}
+                    </h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">pod</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.pod }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">seal No</h6>
+                    <h5 nz-typography>{{ item.hblDetail?.sealNo }}</h5>
+                  </div>
+                  <div nz-card-grid [ngStyle]="gridStyle" class="grid-option">
+                    <h6 nz-typography class="hbl-title">gross Weight</h6>
+                    <h5 nz-typography>
+                      {{ item.hblDetail?.grossWeight
+                      }}{{ item.hblDetail?.grosswtDropdowm }}
+                    </h5>
+                  </div>
+                </ng-container>
+              </nz-card>
+            </div>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</div>
+
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="850"
+  [nzVisible]="visibleBL"
+  [nzFooter]="footerTpl"
+  nzTitle="Import SI Creation"
+  (nzOnClose)="close()"
+  class="drawer-option"
+>
+  <div *nzDrawerContent>
+    <nz-card class="form-card">
+      <form nz-form [formGroup]="blForm">
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >Vessel Name</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl1"
+          >
+            <input nz-input [formControlName]="BLPARAMS.vname" />
+            <ng-template #userErrorTpl1 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your vessel name!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >Voyage No</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl2"
+          >
+            <input nz-input [formControlName]="BLPARAMS.voyageNo" />
+            <ng-template #userErrorTpl2 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your voyage no!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >Rotation</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl3"
+          >
+            <input nz-input [formControlName]="BLPARAMS.rotation" />
+            <ng-template #userErrorTpl3 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your rotation!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >PPL</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl4"
+          >
+            <nz-select
+              nzAllowClear
+              nzPlaceHolder="Choose"
+              [formControlName]="BLPARAMS.ppl"
+            >
+              <nz-option
+                *ngFor="let item of pplList"
+                [nzValue]="item.id"
+                [nzLabel]="item.name"
+              ></nz-option>
+            </nz-select>
+            <ng-template #userErrorTpl4 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your ppl!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >Port</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl5"
+          >
+            <nz-select
+              nzAllowClear
+              nzPlaceHolder="Choose"
+              [formControlName]="BLPARAMS.port"
+            >
+              <nz-option
+                *ngFor="let item of portList"
+                [nzValue]="item.id"
+                [nzLabel]="item.name"
+              ></nz-option>
+            </nz-select>
+            <ng-template #userErrorTpl5 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your port!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label
+            [nzSpan]="7"
+            [nzSm]="7"
+            [nzMd]="7"
+            [nzLg]="7"
+            [nzXl]="7"
+            >Terminal</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+            [nzErrorTip]="userErrorTpl6"
+          >
+            <nz-select
+              nzAllowClear
+              nzPlaceHolder="Choose"
+              [formControlName]="BLPARAMS.terminal"
+            >
+              <nz-option
+                *ngFor="let item of terminalList"
+                [nzValue]="item.id"
+                [nzLabel]="item.name"
+              ></nz-option>
+            </nz-select>
+            <ng-template #userErrorTpl6 let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your terminal!</ng-container
+              >
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-card
+          class="bl-card"
+          formArrayName="blItems"
+          *ngFor="let item of blControls(); let i = index"
+        >
+          <div
+            [formGroupName]="i"
+            nz-form
+            nzLayout="inline"
+            class="blItems-details"
+          >
+            <nz-form-item>
+              <nz-form-label
+                [nzSpan]="7"
+                [nzSm]="7"
+                [nzMd]="7"
+                [nzLg]="7"
+                [nzXl]="7"
+                >BL No</nz-form-label
+              >
+              <nz-form-control [nzErrorTip]="userBLErrorTpl1">
+                <input nz-input [formControlName]="BLPARAMS.blNumber" />
+                <ng-template #userBLErrorTpl1 let-control>
+                  <ng-container *ngIf="control.hasError('required')"
+                    >Please input your blNumber!</ng-container
+                  >
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label
+                [nzSpan]="7"
+                [nzSm]="7"
+                [nzMd]="7"
+                [nzLg]="7"
+                [nzXl]="7"
+                >HBL</nz-form-label
+              >
+              <nz-form-control>
+                <nz-radio-group
+                  (ngModelChange)="blsumbit($event, i)"
+                  nzButtonStyle="solid"
+                  [formControlName]="BLPARAMS.isHBL"
+                >
+                  <label
+                    nz-radio-button
+                    [nzValue]="data.id"
+                    *ngFor="let data of radioBtn"
+                    >{{ data.name }}</label
+                  >
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <ng-container>
+                <nz-form-label
+                  [nzSpan]="7"
+                  [nzSm]="7"
+                  [nzMd]="7"
+                  [nzLg]="7"
+                  [nzXl]="7"
+                  >HBL No</nz-form-label
+                >
+                <nz-form-control [nzErrorTip]="userBLErrorTpl2">
+                  <input nz-input [formControlName]="BLPARAMS.hblNumber" />
+                  <ng-template #userBLErrorTpl2 let-control>
+                    <ng-container *ngIf="control.hasError('required')"
+                      >Please input your hblNumber!</ng-container
+                    >
+                  </ng-template>
+                </nz-form-control>
+              </ng-container>
+            </nz-form-item>
+            <button nz-button nzType="primary" nzDanger>
+              <span nz-icon nzType="delete" (click)="deleteBL(i)"></span>
+            </button>
+          </div>
+        </nz-card>
+        <nz-form-item>
+          <nz-form-control
+            [nzOffset]="7"
+            [nzSpan]="12"
+            [nzSm]="12"
+            [nzMd]="12"
+            [nzLg]="12"
+            [nzXl]="12"
+          >
+            <button
+              nz-button
+              nzType="primary"
+              (click)="addItem()"
+              [disabled]="!blForm.valid"
+            >
+              Add B/L
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+  </div>
+  <ng-template #footerTpl>
+    <div class="footer-btn">
+      <button
+        nz-button
+        nzType="primary"
+        (click)="blSave()"
+        [disabled]="!blForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </ng-template>
+</nz-drawer>
+
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="1000"
+  [nzVisible]="visibleHbl"
+  [nzFooter]="footerTp2"
+  nzTitle="Electronic BL"
+  (nzOnClose)="closehbl()"
+>
+  <ng-container *nzDrawerContent>
+    <nz-list nzBordered nzSize="small" class="hbl-list-details">
+      <nz-list-item nzNoFlex>
+        <div nz-row>
+          <div nz-col nzSpan="8">
+            <h6 nz-typography>BL No</h6>
+            <h5 nz-typography>
+              <code>{{ currentBLItem?.blNumber }}</code>
+            </h5>
+          </div>
+          <div nz-col nzSpan="8">
+            <h6 nz-typography>Vessel Name</h6>
+            <h5 nz-typography>
+              <code>{{ currentBLForm?.vesselName }}</code>
+            </h5>
+          </div>
+          <div nz-col nzSpan="8">
+            <h6 nz-typography>Voyage No</h6>
+            <h5 nz-typography>
+              <code>{{ currentBLForm?.voyageNo }}</code>
+            </h5>
+          </div>
+        </div>
+      </nz-list-item>
+    </nz-list>
+    <form nz-form [formGroup]="hblForm">
+      <div nz-row>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Shipper Name</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl1"
+            >
+              <input nz-input [formControlName]="BLPARAMS.shipperName" />
+              <ng-template #userErrorHbl1>
+                <ng-container>Please input your shipperName!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Consignee Name</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl2"
+            >
+              <input nz-input [formControlName]="BLPARAMS.consigneeName" />
+              <ng-template #userErrorHbl2>
+                <ng-container>Please input your consigneeName!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Notify Party Name</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl3"
+            >
+              <input nz-input [formControlName]="BLPARAMS.notifyPartyName" />
+              <ng-template #userErrorHbl3>
+                <ng-container>Please input your notifyPartyName!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >POL</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl4"
+            >
+              <input nz-input [formControlName]="BLPARAMS.pol" />
+              <ng-template #userErrorHbl4>
+                <ng-container>Please input your pol!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Container No</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl5"
+            >
+              <input nz-input [formControlName]="BLPARAMS.containerNo" />
+              <ng-template #userErrorHbl5>
+                <ng-container>Please input your containerNo!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Marks N Numbers</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl6"
+            >
+              <textarea
+                [formControlName]="BLPARAMS.marksNnumbers"
+                nz-input
+                rows="1"
+              ></textarea>
+              <ng-template #userErrorHbl6>
+                <ng-container>Please input your marksNnumbers!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Description</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl7"
+            >
+              <textarea
+                [formControlName]="BLPARAMS.description"
+                nz-input
+                rows="1"
+              ></textarea>
+              <ng-template #userErrorHbl7>
+                <ng-container>Please input your description!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Shipper Address</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl8"
+            >
+              <textarea
+                [formControlName]="BLPARAMS.shipperAddress"
+                nz-input
+                rows="1"
+              ></textarea>
+              <ng-template #userErrorHbl8>
+                <ng-container>Please input your shipperAddress!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Consignee Address</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl9"
+            >
+              <textarea
+                nz-input
+                [formControlName]="BLPARAMS.consigneeAddress"
+                rows="1"
+              ></textarea>
+              <ng-template #userErrorHbl9>
+                <ng-container>Please input your consigneeAddress!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Notify Party Address</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl10"
+            >
+              <textarea
+                [formControlName]="BLPARAMS.notifyPartyAddress"
+                nz-input
+                rows="1"
+              ></textarea>
+              <ng-template #userErrorHbl10>
+                <ng-container
+                  >Please input your notifyPartyAddress!</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >POD</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl11"
+            >
+              <input nz-input [formControlName]="BLPARAMS.pod" />
+              <ng-template #userErrorHbl11>
+                <ng-container>Please input your pod!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Seal No</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl12"
+            >
+              <input nz-input [formControlName]="BLPARAMS.sealNo" />
+              <ng-template #userErrorHbl12>
+                <ng-container>Please input your sealNo!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label
+              [nzSpan]="7"
+              [nzSm]="7"
+              [nzMd]="7"
+              [nzLg]="7"
+              [nzXl]="7"
+              >Gross Weight</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="12"
+              [nzSm]="12"
+              [nzMd]="12"
+              [nzLg]="12"
+              [nzXl]="12"
+              [nzErrorTip]="userErrorHbl13"
+            >
+              <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+                <input
+                  nz-input
+                  type="number"
+                  [formControlName]="BLPARAMS.grossWeight"
+                />
+              </nz-input-group>
+              <ng-template #addOnAfterTemplate>
+                <nz-select
+                  class="grossweight-dropdown"
+                  [formControlName]="BLPARAMS.grosswtDropdowm"
+                >
+                  <nz-option nzLabel="KG" nzValue="KG"></nz-option>
+                  <nz-option nzLabel="CBM" nzValue="CBM"></nz-option>
+                </nz-select>
+              </ng-template>
+              <ng-template #userErrorHbl13>
+                <ng-container>Please input your grossWeight!</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-template #footerTp2>
+    <button
+      nz-button
+      nzType="primary"
+      class="footer-btn"
+      (click)="hblSave()"
+      [disabled]="!hblForm.valid"
+    >
+      Save
+    </button>
+  </ng-template>
+</nz-drawer>

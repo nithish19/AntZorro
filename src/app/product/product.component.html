@@ -1,0 +1,73 @@
+<nz-card  [nzBordered]="false" nzTitle="PROJECT" class="left-card">
+  <form nz-form class="form-value" [formGroup]="projectForm" (ngSubmit)="submitForm()" >
+    <div>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>PROJECT NAME</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl1">
+        <input nz-input formControlName="projectname" />
+        <ng-template #userErrorTpl1 let-control>
+          <ng-container *ngIf="control.hasError('required')">Please input your projectname!</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item> 
+  </div>
+    <div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>START DATE</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl2">
+          <nz-date-picker  [nzShowWeekNumber]="showWeekNumber" formControlName="startdate"></nz-date-picker>
+          <ng-template #userErrorTpl2 let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select your start date!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item> 
+    </div>
+    <div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>DUE DATE</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl3">
+          <nz-date-picker [nzShowWeekNumber]="showWeekNumber" formControlName="duedate"></nz-date-picker>
+          <ng-template #userErrorTpl3 let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select your due date!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item> 
+    </div>
+    <div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>STATUS</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl4">
+        <nz-select  nzAllowClear nzPlaceHolder="Choose" formControlName="status">
+          <nz-option nzValue="Released" nzLabel="Released"></nz-option>
+          <nz-option nzValue="Review" nzLabel="Review"></nz-option>
+          <nz-option nzValue="Pending" nzLabel="Pending"></nz-option>
+          <nz-option nzValue="Work in Progress" nzLabel="Work in Progress"></nz-option>
+          <nz-option nzValue="Coming soon" nzLabel="Coming soon"></nz-option>
+          <!-- <nz-option *ngFor="let item of statusarray" [nzValue]="item.id" [nzLabel]="item.name"></nz-option> -->
+        </nz-select>
+          <ng-template #userErrorTpl4 let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select your status!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item> 
+    </div>
+    <div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>ASSIGN</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl5">
+          <input nz-input formControlName="assign" />
+          <ng-template #userErrorTpl5 let-control>
+            <ng-container *ngIf="control.hasError('required')">Assign is required!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item> 
+    </div>
+    <div>
+      <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+          <button nz-button nzType="primary">{{editoption ?'Update':'Submit'}}</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+</nz-card>
