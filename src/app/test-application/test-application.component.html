@@ -74,7 +74,7 @@
                           nz-button
                           nzType="primary"
                           *nzSpaceItem
-                          (click)="editHbl(item, data,true)"
+                          (click)="editHbl(item,data,true)"
                         >
                           <span nz-icon nzType="eye"></span>
                         </button>
@@ -82,7 +82,7 @@
                           nz-button
                           nzType="primary"
                           *nzSpaceItem
-                          (click)="editHbl(item, data)"
+                          (click)="editHbl(item, data,false)"
                         >
                           <span nz-icon nzType="edit"></span>
                         </button>
@@ -875,7 +875,7 @@
       (click)="hblSave()"
       [disabled]="!hblForm.valid"
     >
-      Save
+    {{viewmodehbl?'Close':'Save'}}  
     </button>
   </ng-template>
 </nz-drawer>
