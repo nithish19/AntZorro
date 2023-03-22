@@ -222,11 +222,11 @@ export class TestApplicationComponent implements OnInit {
   }
 
 
-  viewOption(viewItem: BLItem) {
-    if (viewItem) {
-      viewItem.hblView = !viewItem.hblView;
-    }
-  }
+  // viewOption(viewItem: BLItem) {
+  //   if (viewItem) {
+  //     viewItem.hblView = !viewItem.hblView;
+  //   }
+  // }
 
   editHbl(editElement: BLItem, blForm: BLDetail,isViewMode:boolean=false) {
     this.visibleHbl = true;
